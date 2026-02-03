@@ -6,6 +6,7 @@
 :root {
   --background: #000000;
   --foreground: #ffffff;
+  --font-sf-pro: -apple-system, BlinkMacSystemFont, "SF Pro", "SF Pro Text", system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
 @theme inline {
@@ -13,12 +14,17 @@
   --color-foreground: var(--foreground);
   --font-outfit: 'Outfit', sans-serif;
   --font-rubik: 'Rubik', sans-serif;
+  --font-sf-pro: var(--font-sf-pro);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'Rubik', sans-serif;
+  font-family: var(--font-sf-pro);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Font utility classes */
@@ -28,4 +34,49 @@ body {
 
 .font-rubik {
   font-family: 'Rubik', sans-serif;
+}
+
+.font-sf-pro {
+  font-family: var(--font-sf-pro);
+}
+
+/* Beam animations for grid background */
+@keyframes beam-vertical {
+  0% {
+    top: -200px;
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    top: 100vh;
+    opacity: 0;
+  }
+}
+
+@keyframes beam-horizontal {
+  0% {
+    left: -200px;
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    left: 100vw;
+    opacity: 0;
+  }
 }

@@ -83,7 +83,7 @@ export function Tabs() {
             <div className="w-[480px] flex flex-col gap-4">
                 {/* Tab Navigation */}
                 <div className="flex justify-center">
-                    <div className="inline-flex items-center gap-1 border border-zinc-700 rounded-lg p-1">
+                    <div className="inline-flex items-center gap-1 border border-zinc-700 rounded-4xl p-1">
                         {tabs.map((tab) => (
                             <button
                                 key={tab.id}
@@ -98,7 +98,7 @@ export function Tabs() {
                                 {activeTab === tab.id && (
                                     <motion.div
                                         layoutId="activeTab"
-                                        className="absolute inset-0 bg-zinc-800 rounded-md"
+                                        className="absolute inset-0 bg-zinc-800 rounded-4xl"
                                         transition={{ type: "spring", duration: 0.3, bounce: 0.15 }}
                                     />
                                 )}

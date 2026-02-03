@@ -19,7 +19,7 @@ export function Navbar() {
                     <input
                         type="text"
                         placeholder="search the orb"
-                        className="w-full bg-transparent border border-zinc-700 rounded-lg py-2 pl-10 pr-4 text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:border-zinc-500 transition-colors"
+                        className="w-full bg-transparent border border-zinc-700 rounded-4xl py-2 pl-10 pr-4 text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:border-zinc-500 transition-colors"
                     />
                 </div>
             </div>
