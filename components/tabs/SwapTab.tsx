@@ -106,46 +106,46 @@ export function SwapTab() {
     return (
         <div className="w-full max-w-md mx-auto">
             {/* Order Type Tabs */}
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between gap-2 mb-6">
                 <div className="flex rounded-full p-1" style={{ background: "var(--color-bg-cream-mid)" }}>
                     <button 
-                        className="px-4 py-2 rounded-full font-medium text-sm"
+                        className="px-2 sm:px-4 py-1.5 sm:py-2 rounded-full font-medium text-xs sm:text-sm"
                         style={{ background: "var(--color-success)", color: "var(--color-bg-cream)" }}
                     >
                         Market
                     </button>
                     <button 
-                        className="px-4 py-2 rounded-full transition-colors text-sm"
+                        className="px-2 sm:px-4 py-1.5 sm:py-2 rounded-full transition-colors text-xs sm:text-sm"
                         style={{ color: "var(--color-text-muted)" }}
                     >
                         Limit
                     </button>
                     <button 
-                        className="px-4 py-2 rounded-full transition-colors text-sm"
+                        className="px-2 sm:px-4 py-1.5 sm:py-2 rounded-full transition-colors text-xs sm:text-sm"
                         style={{ color: "var(--color-text-muted)" }}
                     >
                         Recurring
                     </button>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-1 sm:gap-2">
                     <button 
-                        className="flex items-center gap-1 px-3 py-1.5 rounded-full border text-sm transition-colors"
+                        className="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full border text-xs sm:text-sm transition-colors"
                         style={{ borderColor: "var(--color-border-secondary)", color: "var(--color-text-secondary)" }}
                     >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                         </svg>
-                        Paste CA
+                        <span className="hidden sm:inline">Paste CA</span>
                     </button>
                     <button 
-                        className="flex items-center gap-1 px-3 py-1.5 rounded-full border text-sm transition-all"
+                        className="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full border text-xs sm:text-sm transition-all"
                         style={{ 
                             background: "linear-gradient(to right, rgba(139, 116, 208, 0.2), rgba(59, 130, 246, 0.2))",
                             borderColor: "var(--color-brand-lavender)",
                             color: "var(--color-text-primary)"
                         }}
                     >
-                        ✨ Ultra
+                        ✨<span className="hidden sm:inline ml-1">Ultra</span>
                     </button>
                 </div>
             </div>
