@@ -122,7 +122,8 @@ export function Tabs() {
                             style={{ textShadow: "3px 3px 0px rgba(0, 0, 0, 0.08)" }}
                         >
                             <motion.span
-                                className="block text-[#1A1A1A]"
+                                className="block"
+                                style={{ color: "var(--color-text-primary)" }}
                                 initial={{ opacity: 0, x: -30 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ duration: 0.4, delay: 0.1 }}
@@ -130,8 +131,8 @@ export function Tabs() {
                                 {heroContent[activeTab].line1}
                             </motion.span>
                             <motion.span
-                                className="block text-[#FF6B4A] italic font-extrabold"
-                                style={{ textShadow: "3px 3px 0px rgba(255, 107, 74, 0.2)" }}
+                                className="block italic font-extrabold"
+                                style={{ color: "var(--color-brand-coral)", textShadow: "3px 3px 0px rgba(255, 107, 74, 0.2)" }}
                                 initial={{ opacity: 0, x: -30 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ duration: 0.4, delay: 0.2 }}
@@ -139,7 +140,8 @@ export function Tabs() {
                                 {heroContent[activeTab].line2}
                             </motion.span>
                             <motion.span
-                                className="block text-[#1A1A1A]"
+                                className="block"
+                                style={{ color: "var(--color-text-primary)" }}
                                 initial={{ opacity: 0, x: -30 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ duration: 0.4, delay: 0.3 }}
@@ -150,7 +152,8 @@ export function Tabs() {
 
                         {/* Description */}
                         <motion.p
-                            className="text-base lg:text-lg text-black/80 max-w-lg font-rubik leading-relaxed font-semibold mb-8"
+                            className="text-base lg:text-lg max-w-lg font-rubik leading-relaxed font-semibold mb-8"
+                            style={{ color: "var(--color-text-secondary)" }}
                             initial={{ opacity: 0, y: 15 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.4, delay: 0.4 }}
@@ -176,7 +179,12 @@ export function Tabs() {
                                     {heroContent[activeTab].tags.map((tag, index) => (
                                         <motion.span
                                             key={tag}
-                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-gray-200 text-sm font-rubik text-gray-700 shadow-sm"
+                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-rubik shadow-sm"
+                                            style={{ 
+                                                background: "var(--color-bg-white)", 
+                                                border: "1px solid var(--color-gray-200)",
+                                                color: "var(--color-text-secondary)"
+                                            }}
                                             initial={{ opacity: 0, scale: 0.8 }}
                                             animate={{ opacity: 1, scale: 1 }}
                                             transition={{ duration: 0.2, delay: 0.5 + index * 0.05 }}
@@ -200,8 +208,8 @@ export function Tabs() {
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ duration: 0.2, delay: 0.6 + index * 0.05 }}
                                         >
-                                            <p className="font-outfit font-bold text-xl text-black">{stat.value}</p>
-                                            <p className="text-xs text-gray-500 font-rubik">{stat.label}</p>
+                                            <p className="font-outfit font-bold text-xl" style={{ color: "var(--color-text-primary)" }}>{stat.value}</p>
+                                            <p className="text-xs font-rubik" style={{ color: "var(--color-text-muted)" }}>{stat.label}</p>
                                         </motion.div>
                                     ))}
                                 </motion.div>
@@ -222,7 +230,7 @@ export function Tabs() {
                 >
                     <div
                         className="inline-flex items-center gap-1.5 rounded-full p-2 neo-border"
-                        style={{ background: "#FFFFFF" }}
+                        style={{ background: "var(--color-bg-white)" }}
                     >
                         {tabs.map((tab) => (
                             <button
@@ -231,15 +239,16 @@ export function Tabs() {
                                 className={cn(
                                     "relative flex items-center gap-2 px-5 py-3 text-sm font-outfit font-bold transition-all rounded-full",
                                     activeTab === tab.id
-                                        ? "text-[#1A1A1A]"
-                                        : "text-[#1A1A1A] hover:bg-gray-100"
+                                        ? ""
+                                        : "hover:bg-gray-100"
                                 )}
+                                style={{ color: "var(--color-text-primary)" }}
                             >
                                 {activeTab === tab.id && (
                                     <motion.div
                                         layoutId="activeTabBg"
                                         className="absolute inset-0 rounded-full neo-border-sm"
-                                        style={{ background: "#F5F0EB" }}
+                                        style={{ background: "var(--color-bg-cream-mid)" }}
                                         transition={{ type: "spring", duration: 0.4, bounce: 0.2 }}
                                     />
                                 )}
@@ -288,7 +297,15 @@ export function Tabs() {
                         >
                             <div className="flex flex-wrap gap-2">
                                 {heroContent[activeTab].tags.map((tag) => (
-                                    <span key={tag} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-gray-200 text-sm font-rubik text-gray-700 shadow-sm">
+                                    <span 
+                                        key={tag} 
+                                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-rubik shadow-sm"
+                                        style={{ 
+                                            background: "var(--color-bg-white)", 
+                                            border: "1px solid var(--color-gray-200)",
+                                            color: "var(--color-text-secondary)"
+                                        }}
+                                    >
                                         {tag}
                                     </span>
                                 ))}
@@ -296,8 +313,8 @@ export function Tabs() {
                             <div className="flex gap-6">
                                 {heroContent[activeTab].stats.map((stat) => (
                                     <div key={stat.label}>
-                                        <p className="font-outfit font-bold text-xl text-black">{stat.value}</p>
-                                        <p className="text-xs text-gray-500 font-rubik">{stat.label}</p>
+                                        <p className="font-outfit font-bold text-xl" style={{ color: "var(--color-text-primary)" }}>{stat.value}</p>
+                                        <p className="text-xs font-rubik" style={{ color: "var(--color-text-muted)" }}>{stat.label}</p>
                                     </div>
                                 ))}
                             </div>
@@ -314,7 +331,7 @@ function SwapPanel() {
     return (
         <motion.div
             className="rounded-3xl w-full overflow-hidden neo-border-lg"
-            style={{ background: "rgba(255, 255, 255, 0.95)" }}
+            style={{ background: "var(--color-bg-white)" }}
             initial={{ opacity: 0, y: 20, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.4, delay: 0.1 }}
@@ -322,17 +339,27 @@ function SwapPanel() {
             <div className="p-6">
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#8B74D0] to-[#6B5AA0] flex items-center justify-center">
+                        <div 
+                            className="w-8 h-8 rounded-full flex items-center justify-center"
+                            style={{ background: "linear-gradient(135deg, var(--color-brand-lavender), var(--color-brand-lavender-dark))" }}
+                        >
                             <FiArrowDown className="w-4 h-4 text-white" />
                         </div>
-                        <span className="font-outfit font-bold text-sm text-black uppercase tracking-wide">
+                        <span className="font-outfit font-bold text-sm uppercase tracking-wide" style={{ color: "var(--color-text-primary)" }}>
                             Swap Tokens
                         </span>
                     </div>
-                    <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full font-rubik font-medium text-xs tracking-wide uppercase bg-[rgba(255,107,74,0.1)] border border-[rgba(255,107,74,0.3)] text-[#FF6B4A]">
+                    <span 
+                        className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full font-rubik font-medium text-xs tracking-wide uppercase"
+                        style={{ 
+                            background: "rgba(255,107,74,0.1)", 
+                            border: "1px solid rgba(255,107,74,0.3)", 
+                            color: "var(--color-brand-coral)" 
+                        }}
+                    >
                         <span className="relative flex h-2 w-2">
-                            <span className="absolute inline-flex h-full w-full rounded-full bg-[#FF6B4A] animate-ping opacity-75" />
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF6B4A]" />
+                            <span className="absolute inline-flex h-full w-full rounded-full animate-ping opacity-75" style={{ background: "var(--color-brand-coral)" }} />
+                            <span className="relative inline-flex rounded-full h-2 w-2" style={{ background: "var(--color-brand-coral)" }} />
                         </span>
                         Live
                     </span>
@@ -348,7 +375,7 @@ function BridgePanel() {
     return (
         <motion.div
             className="rounded-3xl w-full overflow-hidden neo-border-lg"
-            style={{ background: "rgba(255, 255, 255, 0.95)" }}
+            style={{ background: "var(--color-bg-white)" }}
             initial={{ opacity: 0, y: 20, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.4, delay: 0.1 }}
@@ -357,68 +384,101 @@ function BridgePanel() {
                 {/* Header */}
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#8B74D0] to-[#6B5AA0] flex items-center justify-center">
+                        <div 
+                            className="w-8 h-8 rounded-full flex items-center justify-center"
+                            style={{ background: "linear-gradient(135deg, var(--color-brand-lavender), var(--color-brand-lavender-dark))" }}
+                        >
                             <FiLink className="w-4 h-4 text-white" />
                         </div>
-                        <span className="font-outfit font-bold text-sm text-black uppercase tracking-wide">
+                        <span className="font-outfit font-bold text-sm uppercase tracking-wide" style={{ color: "var(--color-text-primary)" }}>
                             Cross-Chain Bridge
                         </span>
                     </div>
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full font-rubik font-medium text-xs tracking-wide uppercase bg-[rgba(34,197,94,0.1)] border border-[rgba(34,197,94,0.3)] text-[#22C55E]">
+                    <span 
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full font-rubik font-medium text-xs tracking-wide uppercase"
+                        style={{ 
+                            background: "rgba(34,197,94,0.1)", 
+                            border: "1px solid rgba(34,197,94,0.3)", 
+                            color: "var(--color-success)" 
+                        }}
+                    >
                         Active •
                     </span>
                 </div>
 
                 {/* FROM Chain */}
                 <div className="mb-4">
-                    <span className="text-xs text-gray-500 font-rubik uppercase mb-2 block">From</span>
-                    <button className="w-full flex items-center justify-between p-4 rounded-xl border-2 border-gray-100 hover:border-gray-300 transition-all">
+                    <span className="text-xs font-rubik uppercase mb-2 block" style={{ color: "var(--color-text-muted)" }}>From</span>
+                    <button 
+                        className="w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all"
+                        style={{ borderColor: "var(--color-gray-100)" }}
+                    >
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#8B74D0] to-[#6B5AA0] flex items-center justify-center text-white font-bold text-sm">E</div>
-                            <span className="font-outfit font-semibold text-black">Ethereum</span>
+                            <div 
+                                className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm"
+                                style={{ background: "linear-gradient(135deg, var(--color-brand-lavender), var(--color-brand-lavender-dark))" }}
+                            >E</div>
+                            <span className="font-outfit font-semibold" style={{ color: "var(--color-text-primary)" }}>Ethereum</span>
                         </div>
-                        <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                        <svg className="w-5 h-5" style={{ color: "var(--color-gray-400)" }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                     </button>
                 </div>
 
                 {/* Arrow */}
                 <div className="flex justify-center my-2">
-                    <div className="w-10 h-10 rounded-full border-2 border-gray-100 flex items-center justify-center bg-white">
-                        <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
+                    <div 
+                        className="w-10 h-10 rounded-full border-2 flex items-center justify-center"
+                        style={{ borderColor: "var(--color-gray-100)", background: "var(--color-bg-white)" }}
+                    >
+                        <svg className="w-4 h-4" style={{ color: "var(--color-gray-400)" }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
                     </div>
                 </div>
 
                 {/* TO Chain */}
                 <div className="mb-4">
-                    <span className="text-xs text-gray-500 font-rubik uppercase mb-2 block">To</span>
-                    <button className="w-full flex items-center justify-between p-4 rounded-xl border-2 border-gray-100 hover:border-gray-300 transition-all">
+                    <span className="text-xs font-rubik uppercase mb-2 block" style={{ color: "var(--color-text-muted)" }}>To</span>
+                    <button 
+                        className="w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all"
+                        style={{ borderColor: "var(--color-gray-100)" }}
+                    >
                         <div className="flex items-center gap-3">
                             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#2775CA] to-[#1E5FB3] flex items-center justify-center text-white font-bold text-sm">A</div>
-                            <span className="font-outfit font-semibold text-black">Arbitrum</span>
+                            <span className="font-outfit font-semibold" style={{ color: "var(--color-text-primary)" }}>Arbitrum</span>
                         </div>
-                        <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                        <svg className="w-5 h-5" style={{ color: "var(--color-gray-400)" }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                     </button>
                 </div>
 
                 {/* Asset */}
                 <div className="mb-4">
-                    <span className="text-xs text-gray-500 font-rubik uppercase mb-2 block">Asset</span>
-                    <button className="w-full flex items-center justify-between p-4 rounded-xl border-2 border-gray-100 hover:border-gray-300 transition-all">
+                    <span className="text-xs font-rubik uppercase mb-2 block" style={{ color: "var(--color-text-muted)" }}>Asset</span>
+                    <button 
+                        className="w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all"
+                        style={{ borderColor: "var(--color-gray-100)" }}
+                    >
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#8B74D0] to-[#6B5AA0] flex items-center justify-center text-white font-bold text-sm">E</div>
-                            <span className="font-outfit font-semibold text-black">Ethereum</span>
+                            <div 
+                                className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm"
+                                style={{ background: "linear-gradient(135deg, var(--color-brand-lavender), var(--color-brand-lavender-dark))" }}
+                            >E</div>
+                            <span className="font-outfit font-semibold" style={{ color: "var(--color-text-primary)" }}>Ethereum</span>
                         </div>
-                        <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                        <svg className="w-5 h-5" style={{ color: "var(--color-gray-400)" }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                     </button>
                 </div>
 
                 {/* Amount */}
                 <div className="mb-6">
-                    <span className="text-xs text-gray-500 font-rubik uppercase mb-2 block">Amount</span>
+                    <span className="text-xs font-rubik uppercase mb-2 block" style={{ color: "var(--color-text-muted)" }}>Amount</span>
                     <input
                         type="text"
                         placeholder="0.00"
-                        className="w-full p-4 rounded-xl border-2 border-gray-100 font-rubik text-2xl text-gray-300 placeholder:text-gray-300 outline-none focus:border-gray-300 transition-all"
+                        className="w-full p-4 rounded-xl border-2 font-rubik text-2xl placeholder:text-gray-300 outline-none transition-all"
+                        style={{ 
+                            borderColor: "var(--color-gray-100)", 
+                            color: "var(--color-text-primary)",
+                            background: "transparent"
+                        }}
                     />
                 </div>
 
@@ -435,15 +495,15 @@ function BridgePanel() {
 // Stake Panel
 function StakePanel() {
     const stakingPools = [
-        { symbol: "E", name: "ETH Pool", type: "Flexible", tvl: "$180M", apr: "4.5%", color: "#8B74D0" },
+        { symbol: "E", name: "ETH Pool", type: "Flexible", tvl: "$180M", apr: "4.5%", color: "var(--color-brand-lavender)" },
         { symbol: "U", name: "USDC Pool", type: "30 Days", tvl: "$120M", apr: "8.2%", color: "#2775CA" },
-        { symbol: "W", name: "WAVE Pool", type: "90 Days", tvl: "$80M", apr: "12.5%", color: "#FF6B4A" },
+        { symbol: "W", name: "WAVE Pool", type: "90 Days", tvl: "$80M", apr: "12.5%", color: "var(--color-brand-coral)" },
     ];
 
     return (
         <motion.div
             className="rounded-3xl w-full overflow-hidden neo-border-lg"
-            style={{ background: "rgba(255, 255, 255, 0.95)" }}
+            style={{ background: "var(--color-bg-white)" }}
             initial={{ opacity: 0, y: 20, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.4, delay: 0.1 }}
@@ -452,15 +512,25 @@ function StakePanel() {
                 {/* Header */}
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#FF8A6A] to-[#FF6B4A] flex items-center justify-center">
+                        <div 
+                            className="w-8 h-8 rounded-full flex items-center justify-center"
+                            style={{ background: "var(--gradient-coral)" }}
+                        >
                             <FiLock className="w-4 h-4 text-white" />
                         </div>
-                        <span className="font-outfit font-bold text-sm text-black uppercase tracking-wide">
+                        <span className="font-outfit font-bold text-sm uppercase tracking-wide" style={{ color: "var(--color-text-primary)" }}>
                             Staking Pools
                         </span>
                     </div>
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full font-rubik font-medium text-xs tracking-wide uppercase bg-[rgba(255,107,74,0.1)] border border-[rgba(255,107,74,0.3)] text-[#FF6B4A]">
-                        <span className="w-2 h-2 rounded-full bg-[#FF6B4A]" />
+                    <span 
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full font-rubik font-medium text-xs tracking-wide uppercase"
+                        style={{ 
+                            background: "rgba(255,107,74,0.1)", 
+                            border: "1px solid rgba(255,107,74,0.3)", 
+                            color: "var(--color-brand-coral)" 
+                        }}
+                    >
+                        <span className="w-2 h-2 rounded-full" style={{ background: "var(--color-brand-coral)" }} />
                         Rewards Active
                     </span>
                 </div>
@@ -470,7 +540,8 @@ function StakePanel() {
                     {stakingPools.map((pool, index) => (
                         <motion.button
                             key={pool.name}
-                            className="w-full flex items-center justify-between p-4 rounded-xl border-2 border-gray-100 hover:border-gray-300 transition-all"
+                            className="w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all"
+                            style={{ borderColor: "var(--color-gray-100)" }}
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.3, delay: index * 0.05 }}
@@ -483,13 +554,13 @@ function StakePanel() {
                                     {pool.symbol}
                                 </div>
                                 <div className="text-left">
-                                    <p className="font-outfit font-semibold text-black">{pool.name}</p>
-                                    <p className="text-xs text-gray-500">{pool.type} • TVL: {pool.tvl}</p>
+                                    <p className="font-outfit font-semibold" style={{ color: "var(--color-text-primary)" }}>{pool.name}</p>
+                                    <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>{pool.type} • TVL: {pool.tvl}</p>
                                 </div>
                             </div>
                             <div className="text-right">
-                                <p className="font-outfit font-bold text-[#22C55E]">{pool.apr}</p>
-                                <p className="text-xs text-gray-500">APR</p>
+                                <p className="font-outfit font-bold" style={{ color: "var(--color-success)" }}>{pool.apr}</p>
+                                <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>APR</p>
                             </div>
                         </motion.button>
                     ))}
@@ -508,16 +579,16 @@ function StakePanel() {
 // History Panel
 function HistoryPanel() {
     const transactions = [
-        { type: "Swap", from: "ETH", to: "USDC", amount: "0.5 ETH", time: "2 mins ago", icon: "↕", color: "#8B74D0" },
-        { type: "Send", from: "", to: "0x1234...5678", amount: "500 USDC", time: "1 hour ago", icon: "↗", color: "#FF6B4A" },
+        { type: "Swap", from: "ETH", to: "USDC", amount: "0.5 ETH", time: "2 mins ago", icon: "↕", color: "var(--color-brand-lavender)" },
+        { type: "Send", from: "", to: "0x1234...5678", amount: "500 USDC", time: "1 hour ago", icon: "↗", color: "var(--color-brand-coral)" },
         { type: "Bridge", from: "Ethereum", to: "Arbitrum", amount: "1.2 ETH", time: "3 hours ago", icon: "∞", color: "#2775CA" },
-        { type: "Swap", from: "USDT", to: "ETH", amount: "1,000 USDT", time: "Yesterday", icon: "↕", color: "#8B74D0" },
+        { type: "Swap", from: "USDT", to: "ETH", amount: "1,000 USDT", time: "Yesterday", icon: "↕", color: "var(--color-brand-lavender)" },
     ];
 
     return (
         <motion.div
             className="rounded-3xl w-full overflow-hidden neo-border-lg"
-            style={{ background: "rgba(255, 255, 255, 0.95)" }}
+            style={{ background: "var(--color-bg-white)" }}
             initial={{ opacity: 0, y: 20, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.4, delay: 0.1 }}
@@ -526,14 +597,17 @@ function HistoryPanel() {
                 {/* Header */}
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#8B74D0] to-[#6B5AA0] flex items-center justify-center">
+                        <div 
+                            className="w-8 h-8 rounded-full flex items-center justify-center"
+                            style={{ background: "linear-gradient(135deg, var(--color-brand-lavender), var(--color-brand-lavender-dark))" }}
+                        >
                             <FiClock className="w-4 h-4 text-white" />
                         </div>
-                        <span className="font-outfit font-bold text-sm text-black uppercase tracking-wide">
+                        <span className="font-outfit font-bold text-sm uppercase tracking-wide" style={{ color: "var(--color-text-primary)" }}>
                             Recent Activity
                         </span>
                     </div>
-                    <button className="text-[#8B74D0] font-rubik font-medium text-sm hover:underline">
+                    <button className="font-rubik font-medium text-sm hover:underline" style={{ color: "var(--color-brand-lavender)" }}>
                         View All
                     </button>
                 </div>
@@ -543,35 +617,39 @@ function HistoryPanel() {
                     {transactions.map((tx, index) => (
                         <motion.div
                             key={index}
-                            className="w-full flex items-center justify-between p-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-all"
+                            className="w-full flex items-center justify-between p-4 rounded-xl transition-all"
+                            style={{ background: "var(--color-bg-cream-mid)" }}
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.3, delay: index * 0.05 }}
                         >
                             <div className="flex items-center gap-3">
                                 <div
-                                    className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-lg"
+                                    className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg"
                                     style={{ background: `linear-gradient(135deg, ${tx.color}40, ${tx.color}20)`, color: tx.color }}
                                 >
                                     {tx.icon}
                                 </div>
                                 <div className="text-left">
-                                    <p className="font-outfit font-semibold text-black">{tx.type}</p>
-                                    <p className="text-xs text-gray-500">
+                                    <p className="font-outfit font-semibold" style={{ color: "var(--color-text-primary)" }}>{tx.type}</p>
+                                    <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>
                                         {tx.type === "Send" ? `To ${tx.to}` : `${tx.from} → ${tx.to}`}
                                     </p>
                                 </div>
                             </div>
                             <div className="text-right">
-                                <p className="font-outfit font-semibold text-black">{tx.amount}</p>
-                                <p className="text-xs text-[#22C55E]">✓ {tx.time}</p>
+                                <p className="font-outfit font-semibold" style={{ color: "var(--color-text-primary)" }}>{tx.amount}</p>
+                                <p className="text-xs" style={{ color: "var(--color-success)" }}>✓ {tx.time}</p>
                             </div>
                         </motion.div>
                     ))}
                 </div>
 
                 {/* Load More */}
-                <button className="w-full mt-4 py-3 text-gray-500 font-rubik font-medium text-sm hover:text-black transition-colors">
+                <button 
+                    className="w-full mt-4 py-3 font-rubik font-medium text-sm transition-colors"
+                    style={{ color: "var(--color-text-muted)" }}
+                >
                     Load More Transactions
                 </button>
             </div>

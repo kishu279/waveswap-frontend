@@ -1,0 +1,46 @@
+/* ============================================
+   DARK THEME - Navy-Black Hybrid
+   ============================================
+   Professional Web3 dark mode with navy tint.
+   Overrides light theme tokens.
+   ============================================ */
+
+[data-theme="dark"] {
+  /* Backgrounds */
+  --color-bg-cream: #0a0a14;
+  --color-bg-cream-mid: #1a1a2e;
+  --color-bg-cream-dark: #16213e;
+  --color-bg-white: #16213e;
+
+  /* Text */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #a1a1aa;
+  --color-text-muted: #71717a;
+
+  /* Borders */
+  --color-border-primary: #3b4d75;
+  --color-border-secondary: rgba(59, 77, 117, 0.5);
+
+  /* Accent Colors - coral stays for brand consistency */
+  --color-accent-primary: #FF6B4A;
+  --color-accent-secondary: #3b82f6;
+
+  /* Status Colors - brighter for dark bg */
+  --color-success: #84cc16;
+  --color-warning: #fbbf24;
+  --color-error: #f87171;
+
+  /* Gray Scale - inverted for dark */
+  --color-gray-50: #18181b;
+  --color-gray-100: #27272a;
+  --color-gray-200: #3f3f46;
+  --color-gray-300: #52525b;
+  --color-gray-400: #71717a;
+  --color-gray-500: #a1a1aa;
+  --color-gray-600: #d4d4d8;
+
+  /* Neo-brutalist shadows - use navy border */
+  --shadow-neo-sm: 2px 2px 0px 0px var(--color-border-primary);
+  --shadow-neo-md: 4px 4px 0px 0px var(--color-border-primary);
+  --shadow-neo-lg: 6px 6px 0px 0px var(--color-border-primary);
+}
