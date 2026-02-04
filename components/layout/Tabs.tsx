@@ -3,12 +3,14 @@
 import { useState, ReactNode } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
+import { FiSend, FiArrowDown, FiLink, FiLock, FiClock } from "react-icons/fi";
 
 import { SendTab, SendPanel } from "@/components/tabs/SendTab";
 import { SwapTab, SwapTabContent } from "@/components/tabs/SwapTab";
 import { BridgeTab } from "@/components/tabs/BridgeTab";
 import { StakeTab } from "@/components/tabs/StakeTab";
 import { HistoryTab } from "@/components/tabs/HistoryTab";
+import { HeroSection } from "./HeroSection";
 
 type TabId = "send" | "swap" | "bridge" | "stake" | "history";
 
@@ -16,323 +18,247 @@ interface Tab {
     id: TabId;
     label: string;
     title: string;
+    icon: ReactNode;
     component: ReactNode;
 }
 
 const tabs: Tab[] = [
-    { id: "send", label: "send", title: "Send", component: <SendTab /> },
-    { id: "swap", label: "swap", title: "Swap", component: <SwapTabContent /> },
-    { id: "bridge", label: "bridge", title: "Bridge", component: <BridgeTab /> },
-    { id: "stake", label: "stake", title: "Stake", component: <StakeTab /> },
-    { id: "history", label: "history", title: "History", component: <HistoryTab /> },
+    { id: "send", label: "Send", title: "Send", icon: <FiSend className="w-4 h-4" />, component: <SendTab /> },
+    { id: "swap", label: "Swap", title: "Swap", icon: <FiArrowDown className="w-4 h-4" />, component: <SwapTabContent /> },
+    { id: "bridge", label: "Bridge", title: "Bridge", icon: <FiLink className="w-4 h-4" />, component: <BridgeTab /> },
+    { id: "stake", label: "Stake", title: "Stake", icon: <FiLock className="w-4 h-4" />, component: <StakeTab /> },
+    { id: "history", label: "History", title: "History", icon: <FiClock className="w-4 h-4" />, component: <HistoryTab /> },
 ];
 
 export function Tabs() {
     const [activeTab, setActiveTab] = useState<TabId>("send");
 
-    const activeTabData = tabs.find((t) => t.id === activeTab);
-
-    const isSwapTab = activeTab === "swap";
-    const isSendTab = activeTab === "send";
-    const isCompactTab = isSwapTab || isSendTab;
-
     return (
-        <div className="flex gap-8 min-h-[calc(100vh-160px)]">
-            {/* Left Side - Heading and Description */}
-            <div className="flex-1 pt-8">
-                {/* Animated Title */}
-                <div className="h-24 relative overflow-hidden">
-                    <AnimatePresence mode="wait">
-                        <motion.h1
-                            key={activeTab}
-                            initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}
-                            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                            exit={{ opacity: 0, y: -40, x: 40, filter: "blur(8px)", scale: 1.5 }}
-                            transition={{
-                                type: "spring",
-                                stiffness: 100,
-                                damping: 10,
-                            }}
-                            className="font-outfit text-6xl font-bold text-white absolute"
-                        >
-                            {activeTabData?.title.split("").map((letter, letterIndex) => (
-                                <motion.span
-                                    key={letter + letterIndex}
-                                    initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}
-                                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                                    transition={{
-                                        delay: letterIndex * 0.05,
-                                        duration: 0.2,
-                                    }}
-                                    className="inline-block"
-                                >
-                                    {letter}
-                                </motion.span>
-                            ))}
-                        </motion.h1>
-                    </AnimatePresence>
-                </div>
-
-                {/* Tab Content */}
-                <div className="mt-6">
-                    {activeTabData?.component}
-                </div>
-            </div>
+        <div className="flex flex-col lg:flex-row gap-8 min-h-[calc(100vh-160px)]">
+            {/* Left Side - Hero Section */}
+            <HeroSection />
 
             {/* Right Side - Tab Navigation + Action Panel */}
-            <div className="w-[480px] flex flex-col gap-4">
+            <div className="w-full lg:w-[480px] flex flex-col gap-4">
                 {/* Tab Navigation */}
-                <div className="flex justify-center">
-                    <div className="inline-flex items-center gap-1 border border-zinc-700 rounded-4xl p-1">
+                <motion.div
+                    className="flex justify-center"
+                    initial={{ opacity: 0, y: -15, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.5, delay: 0.3 }}
+                >
+                    <div
+                        className="inline-flex items-center gap-1.5 rounded-full p-2 neo-border"
+                        style={{ background: "#FFFFFF" }}
+                    >
                         {tabs.map((tab) => (
                             <button
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id)}
                                 className={cn(
-                                    "relative px-4 py-1.5 text-sm font-medium transition-colors",
+                                    "relative flex items-center gap-2 px-5 py-3 text-sm font-outfit font-bold transition-all rounded-full",
                                     activeTab === tab.id
-                                        ? "text-white"
-                                        : "text-zinc-500 hover:text-zinc-300"
+                                        ? "text-[#1A1A1A]"
+                                        : "text-[#1A1A1A] hover:bg-gray-100"
                                 )}
                             >
                                 {activeTab === tab.id && (
                                     <motion.div
-                                        layoutId="activeTab"
-                                        className="absolute inset-0 bg-zinc-800 rounded-4xl"
-                                        transition={{ type: "spring", duration: 0.3, bounce: 0.15 }}
+                                        layoutId="activeTabBg"
+                                        className="absolute inset-0 rounded-full neo-border-sm"
+                                        style={{ background: "#F5F0EB" }}
+                                        transition={{ type: "spring", duration: 0.4, bounce: 0.2 }}
                                     />
                                 )}
+                                <span className="relative z-10 hidden sm:block">{tab.icon}</span>
                                 <span className="relative z-10">{tab.label}</span>
                             </button>
                         ))}
                     </div>
-                </div>
+                </motion.div>
 
-                {/* Action Panel - No border for all tabs */}
-                <div className="flex-1 pt-2 flex justify-center">
-                    {activeTab === "send" && <SendPanel />}
-                    {activeTab === "swap" && <SwapTab />}
-                    {activeTab === "bridge" && <BridgePanel />}
-                    {activeTab === "stake" && <StakePanel />}
-                    {activeTab === "history" && <HistoryPanel />}
+                {/* Action Panel */}
+                <motion.div
+                    className="flex-1 pt-2"
+                    initial={{ opacity: 0, y: 25 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.4 }}
+                >
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={activeTab}
+                            initial={{ opacity: 0, filter: "blur(4px)", x: 30, scale: 0.96 }}
+                            animate={{ opacity: 1, filter: "blur(0px)", x: 0, scale: 1 }}
+                            exit={{ opacity: 0, filter: "blur(4px)", x: -30, scale: 0.96 }}
+                            transition={{ duration: 0.3 }}
+                            className="h-full"
+                        >
+                            {activeTab === "send" && <SendPanel />}
+                            {activeTab === "swap" && <SwapPanel />}
+                            {activeTab === "bridge" && <BridgePanel />}
+                            {activeTab === "stake" && <StakePanel />}
+                            {activeTab === "history" && <HistoryPanel />}
+                        </motion.div>
+                    </AnimatePresence>
+                </motion.div>
+
+                {/* Mobile Features Section */}
+                <div className="lg:hidden mt-4">
+                    <motion.div
+                        initial={{ opacity: 0, filter: "blur(4px)", x: 20 }}
+                        animate={{ opacity: 1, filter: "blur(0px)", x: 0 }}
+                        transition={{ duration: 0.6, delay: 0.6 }}
+                        className="space-y-6"
+                    >
+                        <div className="flex flex-wrap gap-2">
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-gray-200 text-sm font-rubik text-gray-700 shadow-sm">
+                                ⚡ Instant Delivery
+                            </span>
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-gray-200 text-sm font-rubik text-gray-700 shadow-sm">
+                                🛡️ Secure
+                            </span>
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-gray-200 text-sm font-rubik text-gray-700 shadow-sm">
+                                🌐 Multi-Chain
+                            </span>
+                        </div>
+                        <div className="flex gap-6">
+                            <div>
+                                <p className="font-outfit font-bold text-xl text-black">$2.4B+</p>
+                                <p className="text-xs text-gray-500 font-rubik">Total Sent</p>
+                            </div>
+                            <div>
+                                <p className="font-outfit font-bold text-xl text-black">1.2M+</p>
+                                <p className="text-xs text-gray-500 font-rubik">Transactions</p>
+                            </div>
+                            <div>
+                                <p className="font-outfit font-bold text-xl text-black">~12s</p>
+                                <p className="text-xs text-gray-500 font-rubik">Avg. Time</p>
+                            </div>
+                        </div>
+                    </motion.div>
                 </div>
             </div>
         </div>
     );
 }
 
-// SendPanel is now imported from SendTab
-
 // Swap Panel
 function SwapPanel() {
     return (
-        <div className="space-y-4">
-            <div className="flex gap-2 mb-4">
-                <button className="px-4 py-2 bg-zinc-800 rounded-lg text-white text-sm">Market</button>
-                <button className="px-4 py-2 text-zinc-500 text-sm hover:text-white transition-colors">Limit</button>
-                <button className="px-4 py-2 text-zinc-500 text-sm hover:text-white transition-colors">Recurring</button>
-            </div>
-
-            <div className="border border-zinc-700 rounded-xl p-4 bg-zinc-900/50">
-                <p className="text-sm text-zinc-400 mb-2">Sell</p>
-                <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-2 bg-zinc-800 px-3 py-2 rounded-lg">
-                        <div className="w-6 h-6 rounded-full bg-blue-500"></div>
-                        <span>USDC</span>
-                        <span className="text-zinc-400">▼</span>
+        <motion.div
+            className="rounded-3xl w-full overflow-hidden neo-border-lg"
+            style={{ background: "rgba(255, 255, 255, 0.95)" }}
+            initial={{ opacity: 0, y: 20, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+        >
+            <div className="p-6">
+                <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#FF8A6A] to-[#FF6B4A] flex items-center justify-center">
+                            <FiArrowDown className="w-4 h-4 text-white" />
+                        </div>
+                        <span className="font-outfit font-bold text-sm text-black uppercase tracking-wide">
+                            Swap Tokens
+                        </span>
                     </div>
-                    <div className="text-right">
-                        <p className="text-2xl text-zinc-300">0.00</p>
-                        <p className="text-sm text-zinc-500">$0</p>
-                    </div>
+                    <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full font-rubik font-medium text-xs tracking-wide uppercase bg-[rgba(255,107,74,0.1)] border border-[rgba(255,107,74,0.3)] text-[#FF6B4A]">
+                        <span className="relative flex h-2 w-2">
+                            <span className="absolute inline-flex h-full w-full rounded-full bg-[#FF6B4A] animate-ping opacity-75" />
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF6B4A]" />
+                        </span>
+                        Live
+                    </span>
                 </div>
+                <SwapTab />
             </div>
-
-            <div className="flex justify-center">
-                <div className="w-10 h-10 border border-zinc-700 rounded-full flex items-center justify-center bg-zinc-900">
-                    <span>⇅</span>
-                </div>
-            </div>
-
-            <div className="border border-zinc-700 rounded-xl p-4 bg-zinc-900/50">
-                <p className="text-sm text-zinc-400 mb-2">Buy</p>
-                <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-2 bg-zinc-800 px-3 py-2 rounded-lg">
-                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-blue-500"></div>
-                        <span>SOL</span>
-                        <span className="text-zinc-400">▼</span>
-                    </div>
-                    <p className="text-sm text-zinc-500">$0</p>
-                </div>
-            </div>
-
-            <button className="w-full py-4 bg-lime-400 text-black font-semibold rounded-xl hover:bg-lime-300 transition-colors">
-                Connect
-            </button>
-        </div>
+        </motion.div>
     );
 }
 
 // Bridge Panel
 function BridgePanel() {
     return (
-        <div className="w-full max-w-md mx-auto space-y-4">
-            <div className="flex gap-2 mb-4">
-                <button className="px-4 py-2 bg-lime-400 text-black rounded-lg text-sm font-semibold">Transfer</button>
-                <button className="px-4 py-2 text-zinc-500 text-sm hover:text-white transition-colors">Liquidity</button>
-                <button className="px-4 py-2 text-zinc-500 text-sm hover:text-white transition-colors">NFT</button>
-            </div>
-
-            <div className="border border-zinc-700 rounded-xl p-4 bg-zinc-900/50">
-                <div className="flex justify-between mb-2">
-                    <p className="text-sm text-zinc-400">From</p>
-                    <div className="flex items-center gap-2 text-sm">
-                        <span>Ethereum Mainnet</span>
-                        <span className="text-zinc-400">▼</span>
+        <motion.div
+            className="rounded-3xl w-full overflow-hidden neo-border-lg"
+            style={{ background: "rgba(255, 255, 255, 0.95)" }}
+            initial={{ opacity: 0, y: 20, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+        >
+            <div className="p-6">
+                <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#8B74D0] to-[#6B5AA0] flex items-center justify-center">
+                            <FiLink className="w-4 h-4 text-white" />
+                        </div>
+                        <span className="font-outfit font-bold text-sm text-black uppercase tracking-wide">
+                            Bridge Assets
+                        </span>
                     </div>
                 </div>
-                <div className="flex justify-between items-center">
-                    <div>
-                        <p className="text-sm text-zinc-500">Amount:</p>
-                        <p className="text-3xl font-semibold">9.8062</p>
-                        <p className="text-sm text-zinc-500">≈ $9,865.96</p>
-                    </div>
-                    <div className="flex items-center gap-2 bg-zinc-800 px-3 py-2 rounded-lg">
-                        <div className="w-6 h-6 rounded-full bg-green-500"></div>
-                        <span>USDT</span>
-                        <span className="text-zinc-400">▼</span>
-                    </div>
+                <div className="text-center py-12">
+                    <p className="text-gray-500 font-rubik">Cross-chain bridge coming soon</p>
                 </div>
             </div>
-
-            <div className="flex justify-center">
-                <div className="w-10 h-10 border border-zinc-700 rounded-full flex items-center justify-center bg-zinc-900">
-                    <span>⇅</span>
-                </div>
-            </div>
-
-            <div className="border border-zinc-700 rounded-xl p-4 bg-zinc-900/50">
-                <div className="flex justify-between mb-2">
-                    <p className="text-sm text-zinc-400">To</p>
-                    <div className="flex items-center gap-2 text-sm">
-                        <span>Avalanche Chain</span>
-                        <span className="text-zinc-400">▼</span>
-                    </div>
-                </div>
-                <div className="flex justify-between items-center">
-                    <div>
-                        <p className="text-sm text-zinc-500">You will receive:</p>
-                        <p className="text-3xl font-semibold">9.799144</p>
-                        <p className="text-sm text-zinc-500">≈ $9,863.91</p>
-                    </div>
-                    <div className="flex items-center gap-2 bg-zinc-800 px-3 py-2 rounded-lg">
-                        <div className="w-6 h-6 rounded-full bg-green-500"></div>
-                        <span>USDT</span>
-                    </div>
-                </div>
-            </div>
-
-            <button className="w-full py-4 bg-lime-400 text-black font-semibold rounded-xl hover:bg-lime-300 transition-colors">
-                Confirm Transfer
-            </button>
-        </div>
+        </motion.div>
     );
 }
 
 // Stake Panel
 function StakePanel() {
     return (
-        <div className="w-full max-w-md mx-auto space-y-4">
-            <div className="text-center mb-6">
-                <p className="text-zinc-400">Sa=take IN for extra rewards.</p>
-                <p className="text-2xl font-bold">APR <span className="text-purple-400">36.3%</span></p>
-            </div>
-
-            <div className="flex gap-2 mb-4">
-                <button className="flex-1 py-3 bg-purple-600/30 border border-purple-500 rounded-xl text-white">Stake</button>
-                <button className="flex-1 py-3 text-zinc-500 hover:text-white transition-colors">Unstake</button>
-                <button className="flex-1 py-3 text-zinc-500 hover:text-white transition-colors">Withdraw</button>
-            </div>
-
-            <div className="border border-yellow-600/30 rounded-xl p-3 bg-yellow-950/20">
-                <p className="text-yellow-500 text-sm">⚠️ Withdrawals become available 7 days after you unstake.</p>
-            </div>
-
-            <div className="border border-zinc-700 rounded-xl p-4 bg-zinc-900/50">
-                <div className="flex justify-between items-center">
-                    <div>
-                        <p className="text-sm text-zinc-400">You're Stake</p>
-                        <p className="text-4xl font-bold">19.03</p>
-                    </div>
-                    <div className="flex items-center gap-2 bg-zinc-800 px-3 py-2 rounded-lg">
-                        <div className="w-6 h-6 rounded-full bg-blue-500"></div>
-                        <span>ETH</span>
-                        <span className="text-zinc-400">▼</span>
+        <motion.div
+            className="rounded-3xl w-full overflow-hidden neo-border-lg"
+            style={{ background: "rgba(255, 255, 255, 0.95)" }}
+            initial={{ opacity: 0, y: 20, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+        >
+            <div className="p-6">
+                <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#22C55E] to-[#16A34A] flex items-center justify-center">
+                            <FiLock className="w-4 h-4 text-white" />
+                        </div>
+                        <span className="font-outfit font-bold text-sm text-black uppercase tracking-wide">
+                            Stake Tokens
+                        </span>
                     </div>
                 </div>
-                <p className="text-sm text-zinc-500 text-right">$49,963.91 <span className="text-purple-400">Max</span></p>
-            </div>
-
-            <div className="flex justify-center">
-                <div className="w-10 h-10 border border-zinc-700 rounded-full flex items-center justify-center bg-zinc-900">
-                    <span>⇅</span>
+                <div className="text-center py-12">
+                    <p className="text-gray-500 font-rubik">Staking pools coming soon</p>
                 </div>
             </div>
-
-            <div className="border border-zinc-700 rounded-xl p-4 bg-zinc-900/50">
-                <div className="flex justify-between items-center">
-                    <div>
-                        <p className="text-sm text-zinc-400">You'll receive</p>
-                        <p className="text-4xl font-bold">938.24</p>
-                    </div>
-                    <div className="flex items-center gap-2 bg-zinc-800 px-3 py-2 rounded-lg">
-                        <div className="w-6 h-6 rounded-full bg-purple-500"></div>
-                        <span>STK</span>
-                        <span className="text-zinc-400">▼</span>
-                    </div>
-                </div>
-            </div>
-
-            <button className="w-full py-4 bg-gradient-to-r from-zinc-600 to-zinc-400 text-white font-semibold rounded-xl">
-                Stake Now 🔒
-            </button>
-        </div>
+        </motion.div>
     );
 }
 
 // History Panel
 function HistoryPanel() {
-    const transactions = [
-        { name: "Sarah Mitchell", date: "Today 10am", type: "Send", amount: "+$100.00", positive: true },
-        { name: "Emily Johnson", date: "Yesterday 10am", type: "Send", amount: "+$80.00", positive: true },
-        { name: "Michael Brown", date: "12 July", type: "Received", amount: "-$40.00", positive: false },
-        { name: "Jessica Taylor", date: "14 July", type: "Received", amount: "-$20.00", positive: false },
-        { name: "David Wilson", date: "18 July", type: "Send", amount: "+$70.00", positive: true },
-        { name: "Sophia Davis", date: "20 July", type: "Send", amount: "+$160.00", positive: true },
-    ];
-
     return (
-        <div className="w-full max-w-md mx-auto space-y-2">
-            <div className="flex gap-2 mb-4">
-                <button className="px-4 py-2 bg-zinc-800 rounded-full text-white text-sm">All</button>
-                <button className="px-4 py-2 border border-zinc-700 rounded-full text-zinc-500 text-sm hover:text-white transition-colors">Send</button>
-                <button className="px-4 py-2 border border-zinc-700 rounded-full text-zinc-500 text-sm hover:text-white transition-colors">Received</button>
-            </div>
-
-            {transactions.map((tx, i) => (
-                <div key={i} className="flex items-center justify-between p-3 border border-zinc-700/50 rounded-xl hover:bg-zinc-800/30 transition-colors">
-                    <div className="flex items-center gap-3">
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${tx.positive ? 'bg-green-500' : 'bg-red-400'}`}>
-                            <span className="text-white font-bold">$</span>
+        <motion.div
+            className="rounded-3xl w-full overflow-hidden neo-border-lg"
+            style={{ background: "rgba(255, 255, 255, 0.95)" }}
+            initial={{ opacity: 0, y: 20, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+        >
+            <div className="p-6">
+                <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gray-600 to-gray-800 flex items-center justify-center">
+                            <FiClock className="w-4 h-4 text-white" />
                         </div>
-                        <div>
-                            <p className="font-semibold">{tx.name}</p>
-                            <p className="text-sm text-zinc-500">{tx.date} • {tx.type}</p>
-                        </div>
+                        <span className="font-outfit font-bold text-sm text-black uppercase tracking-wide">
+                            Transaction History
+                        </span>
                     </div>
-                    <p className={`font-semibold ${tx.positive ? 'text-green-400' : 'text-red-400'}`}>{tx.amount}</p>
                 </div>
-            ))}
-        </div>
+                <div className="text-center py-12">
+                    <p className="text-gray-500 font-rubik">No transactions yet</p>
+                </div>
+            </div>
+        </motion.div>
     );
 }

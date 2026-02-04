@@ -1,26 +1,52 @@
-/* Google Fonts - must be first */
+/* Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
 @import "tailwindcss";
 
 :root {
-  --background: #000000;
-  --foreground: #ffffff;
-  --font-sf-pro: -apple-system, BlinkMacSystemFont, "SF Pro", "SF Pro Text", system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  /* Light Theme Colors */
+  --coral: #FF6B4A;
+  --coral-light: #FF8A6A;
+  --coral-dark: #FF5533;
+  --lavender: #8B74D0;
+  --lavender-dark: #6B5AA0;
+
+  /* Backgrounds */
+  --bg-cream: #FAF9F7;
+  --bg-cream-mid: #F5F3EF;
+  --bg-cream-dark: #EDE9E3;
+
+  /* Text */
+  --text-primary: #1A1A1A;
+  --text-secondary: rgba(26, 26, 26, 0.8);
+
+  /* Grays */
+  --gray-50: #F9FAFB;
+  --gray-100: #F3F4F6;
+  --gray-200: #E5E7EB;
+  --gray-300: #D1D5DB;
+  --gray-400: #9CA3AF;
+  --gray-500: #6B7280;
+  --gray-600: #4B5563;
+
+  /* Fonts */
+  --font-outfit: 'Outfit', sans-serif;
+  --font-rubik: 'Rubik', sans-serif;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-coral: var(--coral);
+  --color-coral-light: var(--coral-light);
+  --color-lavender: var(--lavender);
+  --color-lavender-dark: var(--lavender-dark);
   --font-outfit: 'Outfit', sans-serif;
   --font-rubik: 'Rubik', sans-serif;
-  --font-sf-pro: var(--font-sf-pro);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sf-pro);
+  background: var(--bg-cream);
+  color: var(--text-primary);
+  font-family: var(--font-rubik);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -36,47 +62,180 @@ body {
   font-family: 'Rubik', sans-serif;
 }
 
-.font-sf-pro {
-  font-family: var(--font-sf-pro);
+/* Neo-brutalist utilities */
+.neo-border {
+  border: 3px solid var(--text-primary);
+  box-shadow: 4px 4px 0px 0px var(--text-primary);
 }
 
-/* Beam animations for grid background */
-@keyframes beam-vertical {
+.neo-border-sm {
+  border: 2px solid var(--text-primary);
+  box-shadow: 2px 2px 0px 0px var(--text-primary);
+}
+
+.neo-border-lg {
+  border: 3px solid var(--text-primary);
+  box-shadow: 6px 6px 0px 0px var(--text-primary);
+}
+
+/* Button hover effects */
+.neo-hover:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px 0px var(--text-primary);
+}
+
+.neo-hover:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px 0px var(--text-primary);
+}
+
+/* Gradient button */
+.btn-coral {
+  background: linear-gradient(135deg, var(--coral-light) 0%, var(--coral) 100%);
+  color: white;
+}
+
+.btn-coral-gradient {
+  background: linear-gradient(135deg, #FF8A6A 0%, #FF6B4A 50%, #FF5533 100%);
+  color: white;
+  box-shadow: 0 8px 24px rgba(255, 107, 74, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Live badge pulse */
+.pulse-dot {
+  position: relative;
+}
+
+.pulse-dot::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--coral);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
   0% {
-    top: -200px;
-    opacity: 0;
-  }
-
-  10% {
     opacity: 1;
-  }
-
-  90% {
-    opacity: 1;
+    transform: scale(1);
   }
 
   100% {
-    top: 100vh;
     opacity: 0;
+    transform: scale(2);
   }
 }
 
-@keyframes beam-horizontal {
-  0% {
-    left: -200px;
-    opacity: 0;
-  }
+/* Shimmer effect for buttons */
+.shimmer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  transform: translateX(-100%);
+  animation: shimmer 2s infinite;
+}
 
-  10% {
-    opacity: 1;
-  }
-
-  90% {
-    opacity: 1;
-  }
-
+@keyframes shimmer {
   100% {
-    left: 100vw;
-    opacity: 0;
+    transform: translateX(100%);
   }
+}
+
+/* Slide animations */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes cardSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Animation utility classes */
+.animate-slide-down {
+  animation: slideDown 0.6s ease-out;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out both;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.6s ease-out both;
+}
+
+.animate-card-slide-in {
+  animation: cardSlideIn 0.6s ease-out both;
+}
+
+/* Delay utilities */
+.delay-100 {
+  animation-delay: 0.1s;
+}
+
+.delay-200 {
+  animation-delay: 0.2s;
+}
+
+.delay-300 {
+  animation-delay: 0.3s;
+}
+
+.delay-400 {
+  animation-delay: 0.4s;
+}
+
+.delay-500 {
+  animation-delay: 0.5s;
+}
+
+.delay-600 {
+  animation-delay: 0.6s;
+}
+
+.delay-700 {
+  animation-delay: 0.7s;
 }
