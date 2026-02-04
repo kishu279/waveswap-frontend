@@ -44,7 +44,9 @@ export function AppShell({ children }: AppShellProps) {
             </div>
 
             {/* Wave Canvas */}
-            <WaveCanvas />
+            <div className="fixed bottom-0 left-0 w-full translate-y-[calc(40%+50px)] z-[1]">
+                <WaveCanvas />
+            </div>
 
             {/* Main Content */}
             <div className="w-full 2xl:max-w-[1800px] mx-auto px-6 md:px-12 lg:px-24 py-8 min-h-screen relative z-10">

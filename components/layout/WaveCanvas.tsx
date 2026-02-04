@@ -2,17 +2,8 @@
 
 import { useEffect, useRef } from "react";
 
-interface Wave {
-    amplitude: number;
-    frequency: number;
-    speed: number;
-    color: string;
-    yOffset: number;
-}
-
 export function WaveCanvas() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const mouseRef = useRef({ x: 0, y: 0 });
     const timeRef = useRef(0);
 
     useEffect(() => {
@@ -24,121 +15,132 @@ export function WaveCanvas() {
 
         let animationId: number;
 
-        const waves: Wave[] = [
-            { amplitude: 40, frequency: 0.008, speed: 0.02, color: "rgba(255, 107, 74, 0.4)", yOffset: 0.3 },
-            { amplitude: 30, frequency: 0.012, speed: 0.025, color: "rgba(139, 116, 208, 0.3)", yOffset: 0.4 },
-            { amplitude: 25, frequency: 0.015, speed: 0.018, color: "rgba(255, 138, 106, 0.25)", yOffset: 0.5 },
-            { amplitude: 35, frequency: 0.01, speed: 0.022, color: "rgba(107, 90, 160, 0.2)", yOffset: 0.6 },
-        ];
+        // High density grid for smaller boxes
+        const cols = 160;
+        const rows = 80;
 
         const resize = () => {
             canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight * 0.5;
+            // Take up more vertical space (60% of screen height)
+            canvas.height = window.innerHeight * 0.6;
         };
 
-        const handleMouseMove = (e: MouseEvent) => {
-            mouseRef.current = { x: e.clientX, y: e.clientY };
-        };
+        const getHeight = (x: number, z: number, time: number): number => {
+            const bounce = Math.sin(time * 1.5) * 0.2 + 1;
 
-        const drawGrid = () => {
-            const gridSize = 40;
-            ctx.strokeStyle = "rgba(255, 107, 74, 0.08)";
-            ctx.lineWidth = 1;
+            // Larger scale waves (smaller frequency multipliers)
+            const wave1 = Math.sin(x * 0.004 + time * 0.8) * Math.cos(z * 0.006 + time * 0.4) * 150 * bounce;
+            const wave2 = Math.sin(x * 0.008 - time * 0.6) * Math.cos(z * 0.005 + time * 0.3) * 80;
+            const wave3 = Math.cos(x * 0.006 + time * 0.9) * Math.sin(z * 0.008 - time * 0.5) * 60;
 
-            // Vertical lines with wave distortion
-            for (let x = 0; x < canvas.width; x += gridSize) {
-                ctx.beginPath();
-                for (let y = 0; y < canvas.height; y += 2) {
-                    const distort = Math.sin(y * 0.01 + timeRef.current * 2) * 5;
-                    const px = x + distort;
-                    if (y === 0) {
-                        ctx.moveTo(px, y);
-                    } else {
-                        ctx.lineTo(px, y);
-                    }
-                }
-                ctx.stroke();
-            }
+            // Broader peaks
+            const peak1 = Math.exp(-Math.pow((x - 200) / 400, 2) - Math.pow((z - 300) / 300, 2)) * 200;
+            const peak2 = Math.exp(-Math.pow((x - 1200) / 500, 2) - Math.pow((z - 400) / 350, 2)) * 250;
 
-            // Horizontal lines with wave distortion
-            for (let y = 0; y < canvas.height; y += gridSize) {
-                ctx.beginPath();
-                for (let x = 0; x < canvas.width; x += 2) {
-                    const distort = Math.sin(x * 0.01 + timeRef.current * 2) * 5;
-                    const py = y + distort;
-                    if (x === 0) {
-                        ctx.moveTo(x, py);
-                    } else {
-                        ctx.lineTo(x, py);
-                    }
-                }
-                ctx.stroke();
-            }
-        };
-
-        const drawWave = (wave: Wave, phase: number) => {
-            const { amplitude, frequency, color, yOffset } = wave;
-            const baseY = canvas.height * yOffset;
-            const mouse = mouseRef.current;
-
-            ctx.beginPath();
-            ctx.moveTo(0, canvas.height);
-
-            for (let x = 0; x <= canvas.width; x += 2) {
-                // Base wave
-                let y = Math.sin(x * frequency + phase) * amplitude;
-                // Secondary wave for complexity
-                y += Math.sin(x * frequency * 2 + phase * 1.5) * (amplitude * 0.3);
-
-                // Mouse interaction
-                const distX = Math.abs(x - mouse.x);
-                const distY = Math.abs(baseY - mouse.y);
-                const dist = Math.sqrt(distX * distX + distY * distY);
-                const influence = Math.max(0, 1 - dist / 200);
-                y += Math.sin(dist * 0.05 + phase * 2) * influence * 20;
-
-                ctx.lineTo(x, baseY + y);
-            }
-
-            ctx.lineTo(canvas.width, canvas.height);
-            ctx.lineTo(0, canvas.height);
-            ctx.closePath();
-
-            // Gradient fill
-            const gradient = ctx.createLinearGradient(0, baseY - amplitude, 0, canvas.height);
-            gradient.addColorStop(0, color);
-            gradient.addColorStop(1, "transparent");
-            ctx.fillStyle = gradient;
-            ctx.fill();
-
-            // Stroke the top edge
-            ctx.strokeStyle = color.replace(/[\d.]+\)$/, "0.6)");
-            ctx.lineWidth = 2;
-            ctx.stroke();
+            return wave1 + wave2 + wave3 + peak1 + peak2;
         };
 
         const animate = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const time = timeRef.current;
 
-            drawGrid();
+            // Make the grid wider than the screen to hide edges
+            const gridWidth = canvas.width * 1.5;
+            const cellW = gridWidth / cols;
+            const cellH = (canvas.height * 1.5) / rows;
+            const xOffset = (canvas.width - gridWidth) / 2;
 
-            waves.forEach((wave) => {
-                const phase = timeRef.current * wave.speed * 50;
-                drawWave(wave, phase);
-            });
+            const grid: { sx: number; sy: number; h: number }[][] = [];
 
-            timeRef.current += 0.016;
+            for (let r = 0; r < rows; r++) {
+                grid[r] = [];
+                for (let c = 0; c < cols; c++) {
+                    // World coordinates
+                    const wx = c * cellW + xOffset;
+                    const wz = r * cellH;
+
+                    const h = getHeight(wx, wz, time);
+
+                    // Perspective projection
+                    // As r increases (closer to bottom of screen), things appear closer/larger
+                    const progress = r / rows;
+                    const perspective = 0.5 + Math.pow(progress, 1.5) * 1.5; // Stronger perspective curve
+
+                    // Expand outwards as we get closer to bottom
+                    const centerOffset = wx - canvas.width / 2;
+                    const sx = canvas.width / 2 + centerOffset * perspective;
+
+                    // Map Z to Y, subtract height with perspective scaling
+                    // Shifted down to bottom
+                    const sy = canvas.height * 0.35 + r * (canvas.height / rows) * 0.8 - h * perspective * 0.6;
+
+                    grid[r][c] = { sx, sy, h };
+                }
+            }
+
+            // Draw back to front
+            ctx.lineCap = "round";
+            ctx.lineJoin = "round";
+
+            for (let r = 0; r < rows - 1; r++) {
+                // Fade out at the back (top of canvas)
+                const depthAlpha = Math.pow(r / rows, 0.5); // Non-linear alpha for smoother fade
+                const lineWidth = 1.5 + (r / rows) * 2.5; // Thicker lines closer to camera
+
+                for (let c = 0; c < cols - 1; c++) {
+                    const p1 = grid[r][c];
+                    const p2 = grid[r][c + 1];
+                    const p3 = grid[r + 1][c];
+                    // const p4 = grid[r + 1][c + 1]; // Diagonal point
+
+                    const avgH = (p1.h + p2.h + p3.h) / 3;
+
+                    let color: string;
+                    // Adjust color thresholds for larger scale
+                    if (avgH > 100) {
+                        // Coral peaks
+                        const t = Math.min(1, (avgH - 100) / 100);
+                        // Mix gray to coral
+                        color = `rgba(${150 + t * 105}, ${145 - t * 40}, ${140 - t * 60}, ${depthAlpha * (0.3 + t * 0.2)})`;
+                    } else if (avgH < -50) {
+                        // Lavender valleys
+                        const t = Math.min(1, (-avgH - 50) / 80);
+                        // Mix gray to lavender
+                        color = `rgba(${150 - t * 10}, ${145 - t * 10}, ${140 + t * 50}, ${depthAlpha * 0.3})`;
+                    } else {
+                        color = `rgba(130, 125, 120, ${depthAlpha * 0.3})`;
+                    }
+
+                    ctx.strokeStyle = color;
+                    ctx.lineWidth = lineWidth;
+
+                    // Draw Mesh
+                    ctx.beginPath();
+                    // Horizontal
+                    ctx.moveTo(p1.sx, p1.sy);
+                    ctx.lineTo(p2.sx, p2.sy);
+                    // Vertical
+                    ctx.lineTo(grid[r + 1][c + 1].sx, grid[r + 1][c + 1].sy);
+                    // Diagonal (optional, keeping it simple wireframe for cleaner look or adding back triangle)
+                    // Let's do the triangle style requested
+                    ctx.lineTo(p1.sx, p1.sy);
+                    // Also connect vertical left
+                    ctx.moveTo(p1.sx, p1.sy);
+                    ctx.lineTo(p3.sx, p3.sy);
+                    ctx.stroke();
+                }
+            }
+
+            timeRef.current += 0.01;
             animationId = requestAnimationFrame(animate);
         };
 
         resize();
         window.addEventListener("resize", resize);
-        document.addEventListener("mousemove", handleMouseMove);
         animate();
 
         return () => {
             window.removeEventListener("resize", resize);
-            document.removeEventListener("mousemove", handleMouseMove);
             cancelAnimationFrame(animationId);
         };
     }, []);
@@ -146,10 +148,11 @@ export function WaveCanvas() {
     return (
         <canvas
             ref={canvasRef}
-            className="fixed bottom-0 left-0 w-full h-[50vh] pointer-events-none z-0"
+            className="fixed bottom-0 left-0 w-full pointer-events-none z-[1]"
             style={{
-                maskImage: "linear-gradient(to top, black 30%, transparent 100%)",
-                WebkitMaskImage: "linear-gradient(to top, black 30%, transparent 100%)",
+                height: "60vh",
+                maskImage: "linear-gradient(to bottom, transparent 0%, black 30%)",
+                WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 30%)",
             }}
         />
     );
