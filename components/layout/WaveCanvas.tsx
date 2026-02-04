@@ -82,6 +82,12 @@ export function WaveCanvas() {
             ctx.lineCap = "round";
             ctx.lineJoin = "round";
 
+            // Fetch current theme colors dynamically
+            const styles = getComputedStyle(document.documentElement);
+            const primary = styles.getPropertyValue('--primary').trim();
+            const accent = styles.getPropertyValue('--accent').trim();
+            const muted = styles.getPropertyValue('--muted-foreground').trim();
+
             for (let r = 0; r < rows - 1; r++) {
                 // Fade out at the back (top of canvas)
                 const depthAlpha = Math.pow(r / rows, 0.5); // Non-linear alpha for smoother fade
@@ -95,23 +101,23 @@ export function WaveCanvas() {
 
                     const avgH = (p1.h + p2.h + p3.h) / 3;
 
-                    let color: string;
-                    // Adjust color thresholds for larger scale
+                    // Calculate intensity based on height
+                    const t = avgH > 100 ? Math.min(1, (avgH - 100) / 100) : avgH < -50 ? Math.min(1, (-avgH - 50) / 80) : 0;
+
                     if (avgH > 100) {
-                        // Coral peaks
-                        const t = Math.min(1, (avgH - 100) / 100);
-                        // Mix gray to coral
-                        color = `rgba(${150 + t * 105}, ${145 - t * 40}, ${140 - t * 60}, ${depthAlpha * (0.3 + t * 0.2)})`;
+                        // Peaks - Use Primary Theme Color (Blue)
+                        ctx.strokeStyle = `color-mix(in srgb, ${primary} ${Math.round(t * 100)}%, ${muted})`;
+                        ctx.globalAlpha = depthAlpha * (0.3 + t * 0.5);
                     } else if (avgH < -50) {
-                        // Lavender valleys
-                        const t = Math.min(1, (-avgH - 50) / 80);
-                        // Mix gray to lavender
-                        color = `rgba(${150 - t * 10}, ${145 - t * 10}, ${140 + t * 50}, ${depthAlpha * 0.3})`;
+                        // Valleys - Use Accent Theme Color
+                        ctx.strokeStyle = `color-mix(in srgb, ${accent} ${Math.round(t * 100)}%, ${muted})`;
+                        ctx.globalAlpha = depthAlpha * 0.3;
                     } else {
-                        color = `rgba(130, 125, 120, ${depthAlpha * 0.3})`;
+                        // Base Mesh - Use Muted Theme Color
+                        ctx.strokeStyle = muted;
+                        ctx.globalAlpha = depthAlpha * 0.15;
                     }
 
-                    ctx.strokeStyle = color;
                     ctx.lineWidth = lineWidth;
 
                     // Draw Mesh
