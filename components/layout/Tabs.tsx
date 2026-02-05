@@ -220,7 +220,7 @@ export function Tabs() {
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-rubik shadow-sm"
                       style={{
                         background: "var(--color-bg-white)",
-                        border: "1px solid var(--color-gray-200)",
+                        border: "2px solid var(--color-border-primary)",
                         color: "var(--color-text-secondary)",
                       }}
                       initial={{ opacity: 0, scale: 0.8 }}
@@ -383,7 +383,7 @@ export function Tabs() {
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-rubik shadow-sm"
                     style={{
                       background: "var(--color-bg-white)",
-                      border: "1px solid var(--color-gray-200)",
+                      border: "2px solid var(--color-border-primary)",
                       color: "var(--color-text-secondary)",
                     }}
                   >
@@ -524,8 +524,8 @@ function BridgePanel() {
             From
           </span>
           <button
-            className="w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all"
-            style={{ borderColor: "var(--color-gray-100)" }}
+            className="w-full flex items-center justify-between p-4 rounded-xl neo-border transition-all"
+            style={{ borderColor: "var(--color-border-primary)", background: "var(--color-bg-cream-mid)" }}
           >
             <div className="flex items-center gap-3">
               <div
@@ -564,9 +564,9 @@ function BridgePanel() {
         {/* Arrow */}
         <div className="flex justify-center my-2">
           <div
-            className="w-10 h-10 rounded-full border-2 flex items-center justify-center"
+            className="w-10 h-10 rounded-full neo-border flex items-center justify-center"
             style={{
-              borderColor: "var(--color-gray-100)",
+              borderColor: "var(--color-border-primary)",
               background: "var(--color-bg-white)",
             }}
           >
@@ -596,8 +596,8 @@ function BridgePanel() {
             To
           </span>
           <button
-            className="w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all"
-            style={{ borderColor: "var(--color-gray-100)" }}
+            className="w-full flex items-center justify-between p-4 rounded-xl neo-border transition-all"
+            style={{ borderColor: "var(--color-border-primary)", background: "var(--color-bg-cream-mid)" }}
           >
             <div className="flex items-center gap-3">
               <div
@@ -642,8 +642,8 @@ function BridgePanel() {
             Asset
           </span>
           <button
-            className="w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all"
-            style={{ borderColor: "var(--color-gray-100)" }}
+            className="w-full flex items-center justify-between p-4 rounded-xl neo-border transition-all"
+            style={{ borderColor: "var(--color-border-primary)", background: "var(--color-bg-cream-mid)" }}
           >
             <div className="flex items-center gap-3">
               <div
@@ -690,11 +690,11 @@ function BridgePanel() {
           <input
             type="text"
             placeholder="0.00"
-            className="w-full p-4 rounded-xl border-2 font-rubik text-2xl placeholder:text-gray-300 outline-none transition-all"
+            className="w-full p-4 rounded-xl neo-border font-rubik text-2xl placeholder:text-gray-300 outline-none transition-all"
             style={{
-              borderColor: "var(--color-gray-100)",
+              borderColor: "var(--color-border-primary)",
               color: "var(--color-text-primary)",
-              background: "transparent",
+              background: "var(--color-bg-cream-mid)",
             }}
           />
         </div>
@@ -796,8 +796,8 @@ function StakePanel() {
           {stakingPools.map((pool, index) => (
             <motion.button
               key={pool.name}
-              className="w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all"
-              style={{ borderColor: "var(--color-gray-100)" }}
+              className="w-full flex items-center justify-between p-4 rounded-xl neo-border transition-all"
+              style={{ borderColor: "var(--color-border-primary)", background: "var(--color-bg-cream-mid)" }}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: index * 0.05 }}

@@ -123,14 +123,14 @@ export function SendPanel() {
                                     <motion.button
                                         key={token.symbol}
                                         onClick={() => selectToken(token)}
-                                        className="w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all"
+                                        className="w-full flex items-center justify-between p-4 rounded-xl border-3 transition-all neo-border"
                                         style={{ 
                                             borderColor: selectedToken?.symbol === token.symbol 
                                                 ? "var(--color-brand-coral)" 
-                                                : "var(--color-gray-100)",
+                                                : "var(--color-border-primary)",
                                             background: selectedToken?.symbol === token.symbol 
                                                 ? "rgba(255,107,74,0.05)" 
-                                                : "transparent"
+                                                : "var(--color-bg-cream-mid)"
                                         }}
                                         initial={{ opacity: 0, y: 10 }}
                                         animate={{ opacity: 1, y: 0 }}
@@ -194,8 +194,11 @@ export function SendPanel() {
                             </div>
 
                             <div 
-                                className="p-4 border-2 rounded-xl"
-                                style={{ borderColor: "var(--color-gray-100)" }}
+                                className="p-4 rounded-xl neo-border"
+                                style={{ 
+                                    borderColor: "var(--color-border-primary)",
+                                    background: "var(--color-bg-cream-mid)"
+                                }}
                             >
                                 <span className="text-xs font-rubik" style={{ color: "var(--color-text-muted)" }}>To</span>
                                 <input
@@ -242,8 +245,11 @@ export function SendPanel() {
                             </div>
 
                             <div 
-                                className="p-6 border-2 rounded-xl text-center"
-                                style={{ borderColor: "var(--color-gray-100)" }}
+                                className="p-6 rounded-xl text-center neo-border"
+                                style={{ 
+                                    borderColor: "var(--color-border-primary)",
+                                    background: "var(--color-bg-cream-mid)"
+                                }}
                             >
                                 <input
                                     type="text"
@@ -293,8 +299,11 @@ export function SendPanel() {
                             </div>
 
                             <div 
-                                className="p-4 border-2 rounded-xl space-y-3"
-                                style={{ borderColor: "var(--color-gray-100)" }}
+                                className="p-4 rounded-xl space-y-3 neo-border"
+                                style={{ 
+                                    borderColor: "var(--color-border-primary)",
+                                    background: "var(--color-bg-cream-mid)"
+                                }}
                             >
                                 <div className="flex justify-between">
                                     <span className="font-rubik text-sm" style={{ color: "var(--color-text-muted)" }}>Sending</span>
