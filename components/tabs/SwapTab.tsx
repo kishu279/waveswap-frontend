@@ -3,12 +3,12 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 
-// Token data
+// Token data - colors reference CSS variables from tokens.css
 const tokens = [
-    { symbol: "USDC", name: "USD Coin", icon: "💵", color: "#2775CA" },
-    { symbol: "SOL", name: "Solana", icon: "◎", color: "#9945FF" },
-    { symbol: "ETH", name: "Ethereum", icon: "⟠", color: "#627EEA" },
-    { symbol: "BTC", name: "Bitcoin", icon: "₿", color: "#F7931A" },
+    { symbol: "USDC", name: "USD Coin", icon: "💵", colorVar: "var(--token-usdc)" },
+    { symbol: "SOL", name: "Solana", icon: "◎", colorVar: "var(--token-sol)" },
+    { symbol: "ETH", name: "Ethereum", icon: "⟠", colorVar: "var(--token-eth)" },
+    { symbol: "BTC", name: "Bitcoin", icon: "₿", colorVar: "var(--token-btc)" },
 ];
 
 interface TokenInputProps {
@@ -37,7 +37,7 @@ function TokenInput({ label, token, amount, usdValue, onAmountChange, isOutput }
                 >
                     <div
                         className="w-7 h-7 rounded-full flex items-center justify-center text-sm"
-                        style={{ backgroundColor: token.color }}
+                        style={{ backgroundColor: token.colorVar }}
                     >
                         {token.icon}
                     </div>
@@ -275,7 +275,10 @@ export function SwapTab() {
                     whileHover={{ scale: 1.02 }}
                 >
                     <div className="flex items-center gap-2 mb-2">
-                        <div className="w-8 h-8 rounded-full bg-[#2775CA] flex items-center justify-center text-sm">
+                        <div 
+                            className="w-8 h-8 rounded-full flex items-center justify-center text-sm"
+                            style={{ background: "var(--token-usdc)" }}
+                        >
                             💵
                         </div>
                         <div>
@@ -314,7 +317,10 @@ export function SwapTab() {
                     whileHover={{ scale: 1.02 }}
                 >
                     <div className="flex items-center gap-2 mb-2">
-                        <div className="w-8 h-8 rounded-full bg-[#9945FF] flex items-center justify-center text-sm">
+                        <div 
+                            className="w-8 h-8 rounded-full flex items-center justify-center text-sm"
+                            style={{ background: "var(--token-sol)" }}
+                        >
                             ◎
                         </div>
                         <div>

@@ -43,4 +43,9 @@
   --shadow-neo-sm: 2px 2px 0px 0px var(--color-border-primary);
   --shadow-neo-md: 4px 4px 0px 0px var(--color-border-primary);
   --shadow-neo-lg: 6px 6px 0px 0px var(--color-border-primary);
+
+  /* Wave Canvas Colors - Dark Theme */
+  --wave-peak: var(--color-brand-coral);       /* Keep coral for brand */
+  --wave-valley: #3b82f6;                      /* Blue for dark theme */
+  --wave-base: var(--color-gray-500);
 }
