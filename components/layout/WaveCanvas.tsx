@@ -2,9 +2,69 @@
 
 import { useEffect, useRef } from "react";
 
+// Helper function to parse CSS color to RGB values
+function parseColor(color: string): { r: number; g: number; b: number } | null {
+    // Handle hex colors
+    if (color.startsWith('#')) {
+        const hex = color.slice(1);
+        if (hex.length === 3) {
+            return {
+                r: parseInt(hex[0] + hex[0], 16),
+                g: parseInt(hex[1] + hex[1], 16),
+                b: parseInt(hex[2] + hex[2], 16),
+            };
+        }
+        if (hex.length === 6) {
+            return {
+                r: parseInt(hex.slice(0, 2), 16),
+                g: parseInt(hex.slice(2, 4), 16),
+                b: parseInt(hex.slice(4, 6), 16),
+            };
+        }
+    }
+    // Handle rgb/rgba
+    const rgbMatch = color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+    if (rgbMatch) {
+        return {
+            r: parseInt(rgbMatch[1]),
+            g: parseInt(rgbMatch[2]),
+            b: parseInt(rgbMatch[3]),
+        };
+    }
+    return null;
+}
+
+// Get theme colors from CSS variables (client-side only)
+function getThemeColors() {
+    // Default fallback colors for SSR
+    const defaults = {
+        peak: { r: 255, g: 107, b: 74 },    // coral
+        valley: { r: 139, g: 116, b: 208 }, // lavender
+        base: { r: 113, g: 113, b: 122 },   // gray
+    };
+    
+    // Only access DOM on client side
+    if (typeof window === 'undefined') {
+        return defaults;
+    }
+    
+    const styles = getComputedStyle(document.documentElement);
+    
+    const peakColor = styles.getPropertyValue('--wave-peak').trim() || '#FF6B4A';
+    const valleyColor = styles.getPropertyValue('--wave-valley').trim() || '#8B74D0';
+    const baseColor = styles.getPropertyValue('--wave-base').trim() || '#71717a';
+    
+    return {
+        peak: parseColor(peakColor) || defaults.peak,
+        valley: parseColor(valleyColor) || defaults.valley,
+        base: parseColor(baseColor) || defaults.base,
+    };
+}
+
 export function WaveCanvas() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const timeRef = useRef(0);
+    const colorsRef = useRef(getThemeColors());
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -25,6 +85,26 @@ export function WaveCanvas() {
             canvas.height = window.innerHeight * 0.6;
         };
 
+        // Update colors when theme changes
+        const updateColors = () => {
+            colorsRef.current = getThemeColors();
+        };
+
+        // Listen for theme changes via MutationObserver
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.attributeName === 'data-theme') {
+                    // Small delay to allow CSS variables to update
+                    setTimeout(updateColors, 50);
+                }
+            });
+        });
+        
+        observer.observe(document.documentElement, { 
+            attributes: true, 
+            attributeFilter: ['data-theme'] 
+        });
+
         const getHeight = (x: number, z: number, time: number): number => {
             const bounce = Math.sin(time * 1.5) * 0.2 + 1;
 
@@ -38,6 +118,32 @@ export function WaveCanvas() {
             const peak2 = Math.exp(-Math.pow((x - 1200) / 500, 2) - Math.pow((z - 400) / 350, 2)) * 250;
 
             return wave1 + wave2 + wave3 + peak1 + peak2;
+        };
+
+        // Color interpolation helper
+        const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+        
+        const getColor = (avgH: number, depthAlpha: number): string => {
+            const colors = colorsRef.current;
+            
+            if (avgH > 100) {
+                // Peaks - interpolate from base to peak color (coral)
+                const t = Math.min(1, (avgH - 100) / 100);
+                const r = Math.round(lerp(colors.base.r, colors.peak.r, t));
+                const g = Math.round(lerp(colors.base.g, colors.peak.g, t));
+                const b = Math.round(lerp(colors.base.b, colors.peak.b, t));
+                return `rgba(${r}, ${g}, ${b}, ${depthAlpha * (0.3 + t * 0.2)})`;
+            } else if (avgH < -50) {
+                // Valleys - interpolate from base to valley color (lavender/blue)
+                const t = Math.min(1, (-avgH - 50) / 80);
+                const r = Math.round(lerp(colors.base.r, colors.valley.r, t));
+                const g = Math.round(lerp(colors.base.g, colors.valley.g, t));
+                const b = Math.round(lerp(colors.base.b, colors.valley.b, t));
+                return `rgba(${r}, ${g}, ${b}, ${depthAlpha * 0.3})`;
+            } else {
+                // Base mesh color
+                return `rgba(${colors.base.r}, ${colors.base.g}, ${colors.base.b}, ${depthAlpha * 0.15})`;
+            }
         };
 
         const animate = () => {
@@ -91,27 +197,10 @@ export function WaveCanvas() {
                     const p1 = grid[r][c];
                     const p2 = grid[r][c + 1];
                     const p3 = grid[r + 1][c];
-                    // const p4 = grid[r + 1][c + 1]; // Diagonal point
 
                     const avgH = (p1.h + p2.h + p3.h) / 3;
 
-                    let color: string;
-                    // Adjust color thresholds for larger scale
-                    if (avgH > 100) {
-                        // Coral peaks
-                        const t = Math.min(1, (avgH - 100) / 100);
-                        // Mix gray to coral
-                        color = `rgba(${150 + t * 105}, ${145 - t * 40}, ${140 - t * 60}, ${depthAlpha * (0.3 + t * 0.2)})`;
-                    } else if (avgH < -50) {
-                        // Lavender valleys
-                        const t = Math.min(1, (-avgH - 50) / 80);
-                        // Mix gray to lavender
-                        color = `rgba(${150 - t * 10}, ${145 - t * 10}, ${140 + t * 50}, ${depthAlpha * 0.3})`;
-                    } else {
-                        color = `rgba(130, 125, 120, ${depthAlpha * 0.3})`;
-                    }
-
-                    ctx.strokeStyle = color;
+                    ctx.strokeStyle = getColor(avgH, depthAlpha);
                     ctx.lineWidth = lineWidth;
 
                     // Draw Mesh
@@ -121,8 +210,7 @@ export function WaveCanvas() {
                     ctx.lineTo(p2.sx, p2.sy);
                     // Vertical
                     ctx.lineTo(grid[r + 1][c + 1].sx, grid[r + 1][c + 1].sy);
-                    // Diagonal (optional, keeping it simple wireframe for cleaner look or adding back triangle)
-                    // Let's do the triangle style requested
+                    // Triangle style
                     ctx.lineTo(p1.sx, p1.sy);
                     // Also connect vertical left
                     ctx.moveTo(p1.sx, p1.sy);
@@ -136,12 +224,14 @@ export function WaveCanvas() {
         };
 
         resize();
+        updateColors(); // Initial color load
         window.addEventListener("resize", resize);
         animate();
 
         return () => {
             window.removeEventListener("resize", resize);
             cancelAnimationFrame(animationId);
+            observer.disconnect();
         };
     }, []);
 

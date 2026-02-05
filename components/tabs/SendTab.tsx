@@ -4,12 +4,12 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { FiArrowRight, FiStar } from "react-icons/fi";
 
-// Token data with balances
+// Token data with balances - colors reference CSS variables from tokens.css
 const tokens = [
-    { symbol: "ETH", name: "Ethereum", balance: "12.45", color: "var(--color-brand-lavender)" },
-    { symbol: "USDC", name: "USD Coin", balance: "5,432.00", color: "#2775CA" },
-    { symbol: "USDT", name: "Tether", balance: "1,234.50", color: "#26A17B" },
-    { symbol: "SOL", name: "Solana", balance: "0.00498", color: "#9945FF" },
+    { symbol: "ETH", name: "Ethereum", balance: "12.45", color: "var(--token-eth)" },
+    { symbol: "USDC", name: "USD Coin", balance: "5,432.00", color: "var(--token-usdc)" },
+    { symbol: "USDT", name: "Tether", balance: "1,234.50", color: "var(--token-usdt)" },
+    { symbol: "SOL", name: "Solana", balance: "0.00498", color: "var(--token-sol)" },
 ];
 
 type Step = 1 | 2 | 3 | 4;
@@ -163,13 +163,7 @@ export function SendPanel() {
                             <button
                                 onClick={() => selectedToken && setStep(2)}
                                 disabled={!canContinue}
-                                className={`relative flex items-center justify-center gap-2.5 rounded-2xl font-outfit font-bold transition-all overflow-hidden w-full mt-4 px-6 py-3 text-sm ${canContinue ? "btn-coral-gradient" : "opacity-50 cursor-not-allowed"}`}
-                                style={canContinue ? {} : {
-                                    background: "linear-gradient(135deg, #FF8A6A 0%, #FF6B4A 50%, #FF5533 100%)",
-                                    color: "#FFFFFF",
-                                    border: "2px solid rgba(255, 255, 255, 0.2)",
-                                    boxShadow: "0 8px 24px rgba(255, 107, 74, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2)"
-                                }}
+                                className={`relative flex items-center justify-center gap-2.5 rounded-2xl font-outfit font-bold transition-all overflow-hidden w-full mt-4 px-6 py-3 text-sm btn-coral-gradient ${!canContinue ? "opacity-50 cursor-not-allowed" : ""}`}
                             >
                                 <FiArrowRight className="w-4 h-4" />
                                 <span>Continue</span>

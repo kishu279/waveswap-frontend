@@ -600,7 +600,10 @@ function BridgePanel() {
             style={{ borderColor: "var(--color-gray-100)" }}
           >
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#2775CA] to-[#1E5FB3] flex items-center justify-center text-white font-bold text-sm">
+              <div 
+                className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm"
+                style={{ background: "linear-gradient(to bottom right, var(--token-arb), var(--token-usdc))" }}
+              >
                 A
               </div>
               <span
@@ -732,7 +735,7 @@ function StakePanel() {
       type: "30 Days",
       tvl: "$120M",
       apr: "8.2%",
-      color: "#2775CA",
+      color: "var(--token-usdc)",
     },
     {
       symbol: "W",
@@ -888,7 +891,7 @@ function HistoryPanel() {
       amount: "1.2 ETH",
       time: "3 hours ago",
       icon: "∞",
-      color: "#2775CA",
+      color: "var(--token-arb)",
     },
     {
       type: "Swap",

@@ -115,4 +115,23 @@
   --transition-fast: 0.15s ease;
   --transition-normal: 0.3s ease;
   --transition-slow: 0.5s ease;
+
+  /* ========================================
+     WAVE CANVAS COLORS
+     (Dynamic wave grid visualization)
+     ======================================== */
+  --wave-peak: var(--color-brand-coral);
+  --wave-valley: var(--color-brand-lavender);
+  --wave-base: var(--color-text-muted);
+
+  /* ========================================
+     TOKEN BRAND COLORS
+     (External cryptocurrency/token assets)
+     ======================================== */
+  --token-usdc: #2775CA;
+  --token-usdt: #26A17B;
+  --token-sol: #9945FF;
+  --token-eth: #627EEA;
+  --token-btc: #F7931A;
+  --token-arb: #2775CA;
 }
