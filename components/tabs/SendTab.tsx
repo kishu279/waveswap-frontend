@@ -139,7 +139,7 @@ export function SendPanel() {
                                         <div className="flex items-center gap-3">
                                             <div
                                                 className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm"
-                                                style={{ background: `linear-gradient(135deg, ${token.color}, ${token.color}dd)` }}
+                                                style={{ background: token.color }}
                                             >
                                                 {token.symbol.charAt(0)}
                                             </div>
