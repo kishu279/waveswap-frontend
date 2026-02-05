@@ -151,15 +151,15 @@ export function SwapTab() {
   };
 
   return (
-    <div className="w-full max-w-md  sm:max-w-lg mx-auto">
+    <div className="w-full max-w-md mx-auto">
       {/* Order Type Tabs */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between gap-2 mb-6">
         <div
           className="flex rounded-full p-1"
           style={{ background: "var(--color-bg-cream-mid)" }}
         >
           <button
-            className="px-2  py-1.5 sm:py-2 rounded-full font-medium text-xs sm:text-sm"
+            className="px-2 sm:px-4 py-1.5 sm:py-2 rounded-full font-medium text-xs sm:text-sm"
             style={{
               background: "var(--color-success)",
               color: "var(--color-bg-cream)",
@@ -168,13 +168,13 @@ export function SwapTab() {
             Market
           </button>
           <button
-            className="px-2  py-1.5 sm:py-2 rounded-full transition-colors text-xs sm:text-sm"
+            className="px-2 sm:px-4 py-1.5 sm:py-2 rounded-full transition-colors text-xs sm:text-sm"
             style={{ color: "var(--color-text-muted)" }}
           >
             Limit
           </button>
           <button
-            className="px-2  py-1.5 sm:py-2 rounded-full transition-colors text-xs sm:text-sm"
+            className="px-2 sm:px-4 py-1.5 sm:py-2 rounded-full transition-colors text-xs sm:text-sm"
             style={{ color: "var(--color-text-muted)" }}
           >
             Recurring
@@ -220,7 +220,7 @@ export function SwapTab() {
       {/* Swap Container */}
       <div className="relative">
         {/* Token Inputs with Animation */}
-        <div className="space-y-2">
+        <div className="space-y-3">
           <motion.div
             key={`sell-${swapKey}`}
             initial={swapKey > 0 ? { y: 80, opacity: 0, rotateX: -90 } : false}
