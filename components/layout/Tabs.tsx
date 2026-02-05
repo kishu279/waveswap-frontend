@@ -948,10 +948,10 @@ function HistoryPanel() {
           {transactions.map((tx, index) => (
             <motion.div
               key={index}
-              className="w-full flex items-center justify-between p-4 rounded-2xl transition-all"
+              className="w-full flex items-center justify-between p-4 rounded-2xl neo-border transition-all"
               style={{ 
                 background: "var(--color-bg-cream-mid)",
-                border: "1px solid var(--color-border-secondary)"
+                borderColor: "var(--color-border-primary)"
               }}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}

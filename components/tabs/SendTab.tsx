@@ -123,11 +123,11 @@ export function SendPanel() {
                                     <motion.button
                                         key={token.symbol}
                                         onClick={() => selectToken(token)}
-                                        className="w-full flex items-center justify-between p-4 rounded-2xl transition-all"
+                                        className="w-full flex items-center justify-between p-4 rounded-xl neo-border transition-all"
                                         style={{ 
-                                            border: selectedToken?.symbol === token.symbol 
-                                                ? "2px solid var(--color-brand-coral)" 
-                                                : "1px solid var(--color-border-secondary)",
+                                            borderColor: selectedToken?.symbol === token.symbol 
+                                                ? "var(--color-brand-coral)" 
+                                                : "var(--color-border-primary)",
                                             background: selectedToken?.symbol === token.symbol 
                                                 ? "rgba(255,107,74,0.05)" 
                                                 : "var(--color-bg-cream-mid)"
@@ -194,9 +194,9 @@ export function SendPanel() {
                             </div>
 
                             <div 
-                                className="p-4 rounded-2xl"
+                                className="p-4 rounded-xl neo-border"
                                 style={{ 
-                                    border: "1px solid var(--color-border-secondary)",
+                                    borderColor: "var(--color-border-primary)",
                                     background: "var(--color-bg-cream-mid)"
                                 }}
                             >
@@ -245,9 +245,9 @@ export function SendPanel() {
                             </div>
 
                             <div 
-                                className="p-6 rounded-2xl text-center"
+                                className="p-6 rounded-xl text-center neo-border"
                                 style={{ 
-                                    border: "1px solid var(--color-border-secondary)",
+                                    borderColor: "var(--color-border-primary)",
                                     background: "var(--color-bg-cream-mid)"
                                 }}
                             >
@@ -299,9 +299,9 @@ export function SendPanel() {
                             </div>
 
                             <div 
-                                className="p-4 rounded-2xl space-y-3"
+                                className="p-4 rounded-xl space-y-3 neo-border"
                                 style={{ 
-                                    border: "1px solid var(--color-border-secondary)",
+                                    borderColor: "var(--color-border-primary)",
                                     background: "var(--color-bg-cream-mid)"
                                 }}
                             >

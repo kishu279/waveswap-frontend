@@ -35,10 +35,10 @@ function TokenInput({
 }: TokenInputProps) {
   return (
     <div
-      className="rounded-2xl p-4"
+      className="rounded-2xl p-4 neo-border"
       style={{
         background: "var(--color-bg-cream-mid)",
-        border: "1px solid var(--color-border-secondary)",
+        borderColor: "var(--color-border-primary)",
       }}
     >
       <div
@@ -155,11 +155,14 @@ export function SwapTab() {
       {/* Order Type Tabs */}
       <div className="flex items-center justify-between gap-2 mb-6">
         <div
-          className="flex rounded-full p-1"
-          style={{ background: "var(--color-bg-cream-mid)" }}
+          className="flex rounded-full p-1 neo-border"
+          style={{
+            background: "var(--color-bg-cream-mid)",
+            borderColor: "var(--color-border-primary)",
+          }}
         >
           <button
-            className="px-2  py-1.5 sm:py-2 rounded-full font-medium text-xs sm:text-sm"
+            className="px-2  py-1.5  rounded-full font-medium text-xs sm:text-sm"
             style={{
               background: "var(--color-success)",
               color: "var(--color-bg-cream)",
@@ -168,13 +171,13 @@ export function SwapTab() {
             Market
           </button>
           <button
-            className="px-2  py-1.5 sm:py-2 rounded-full transition-colors text-xs sm:text-sm"
+            className="px-2 py-1.5 rounded-full transition-colors font-medium text-xs sm:text-sm"
             style={{ color: "var(--color-text-muted)" }}
           >
             Limit
           </button>
           <button
-            className="px-2  py-1.5 sm:py-2 rounded-full transition-colors text-xs sm:text-sm"
+            className="px-2  py-1.5 rounded-full transition-colors font-medium text-xs sm:text-sm"
             style={{ color: "var(--color-text-muted)" }}
           >
             Recurring
@@ -182,7 +185,7 @@ export function SwapTab() {
         </div>
         <div className="flex gap-1 sm:gap-2">
           <button
-            className="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full border text-xs sm:text-sm transition-colors"
+            className="flex items-center gap-1 px-2  py-1.5 rounded-full border text-xs sm:text-sm neo-border transition-all"
             style={{
               borderColor: "var(--color-border-secondary)",
               color: "var(--color-text-secondary)",
@@ -204,7 +207,7 @@ export function SwapTab() {
             <span className="hidden sm:inline">Paste CA</span>
           </button>
           <button
-            className="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full border text-xs sm:text-sm transition-all"
+            className="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full border text-xs sm:text-sm neo-border transition-colors"
             style={{
               background:
                 "linear-gradient(to right, rgba(139, 116, 208, 0.2), rgba(59, 130, 246, 0.2))",
@@ -310,7 +313,7 @@ export function SwapTab() {
       {/* Action Buttons */}
       <div className="flex gap-3 mt-6">
         <button
-          className="flex items-center gap-2 px-4 py-2 rounded-xl border transition-colors"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl border transition-colors  neo-border"
           style={{
             background: "var(--color-bg-cream-mid)",
             borderColor: "var(--color-border-secondary)",
@@ -336,7 +339,7 @@ export function SwapTab() {
           Show Chart
         </button>
         <button
-          className="flex items-center gap-2 px-4 py-2 rounded-xl border transition-colors"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl border   neo-border transition-colors"
           style={{
             background: "var(--color-bg-cream-mid)",
             borderColor: "var(--color-border-secondary)",
@@ -366,10 +369,10 @@ export function SwapTab() {
       {/* Price Cards */}
       <div className="grid grid-cols-2 gap-4 mt-6">
         <motion.div
-          className="rounded-2xl p-4"
+          className="rounded-2xl p-4 neo-border"
           style={{
             background: "var(--color-bg-cream-mid)",
-            border: "1px solid var(--color-border-secondary)",
+            borderColor: "var(--color-border-primary)",
           }}
           whileHover={{ scale: 1.02 }}
         >
@@ -426,10 +429,10 @@ export function SwapTab() {
         </motion.div>
 
         <motion.div
-          className="rounded-2xl p-4"
+          className="rounded-2xl p-4 neo-border"
           style={{
             background: "var(--color-bg-cream-mid)",
-            border: "1px solid var(--color-border-secondary)",
+            borderColor: "var(--color-border-primary)",
           }}
           whileHover={{ scale: 1.02 }}
         >
